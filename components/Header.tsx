@@ -1,13 +1,13 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export default function Header() {
-    return (
-        <>
-            <Title>Oi eu sou um header</Title>
-        </>
-    )
+  return (
+    <>
+      <Title>Oi eu sou um header</Title>
+    </>
+  );
 }
 
 const Title = styled.h1`
-    color: ${(p) => p.theme.primaryBackground};
-`
+  color: ${(p) => p.theme.primaryBackground};
+`;
