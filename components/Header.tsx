@@ -9,5 +9,5 @@ export default function Header() {
 }
 
 const Title = styled.h1`
-    color: blue;
+    color: ${(p) => p.theme.primaryBackground};
 `
