@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Post } from "vitorpmaringolo-sdk";
+import Avatar from "./Avatar";
 
 interface FeaturedPostProps {
   postSummary: Post.Summary;
@@ -76,14 +77,6 @@ const PostDate = styled.p`
 const EditorName = styled.p`
   font-size: 14px;
   font-weight: 700;
-`;
-
-const Avatar = styled.img`
-  height: 40px;
-  width: 40px;
-  object-fit: cover;
-  border-radius: 20px;
-  box-shadow: 0 0 0 4px ${(p) => p.theme.primaryForeground};
 `;
 
 const Title = styled.h2`
