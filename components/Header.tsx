@@ -2,13 +2,14 @@ import { transparentize } from "polished";
 import styled from "styled-components";
 import { HEADER_HEIGHT } from "../_constants";
 import Logo from "./Logo";
+import NavBar from "./NavBar";
 
 export default function Header() {
   return (
     <Wrapper>
       <Container>
         <Logo />
-        <span>navbar</span>
+        <NavBar />
       </Container>
     </Wrapper>
   );
