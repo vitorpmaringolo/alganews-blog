@@ -1,3 +1,4 @@
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Post, PostService } from "vitorpmaringolo-sdk";
 import FeaturedPost from "../components/FeaturedPost";
@@ -21,11 +22,14 @@ export default function Home(props: HomeProps) {
   );
 }
 
-export async function getServerSideProps() {
-  const posts = await PostService.getAllPosts({ page: 0 });
+export const getServerSideProps: GetServerSideProps<HomeProps> = async (
+  context
+) => {
+  const { page } = context.query;
+  const posts = await PostService.getAllPosts({ page: Number(page) - 1 });
   return {
     props: {
       posts,
     },
   };
-}
+};
