@@ -1,31 +1,36 @@
 import styled from "styled-components";
 import { Post } from "vitorpmaringolo-sdk";
 import Avatar from "./Avatar";
+import Link from "next/link";
+import { transparentize } from "polished";
 
 interface FeaturedPostProps {
   postSummary: Post.Summary;
 }
 
 export default function FeaturedPost(props: FeaturedPostProps) {
+  const { id, slug } = props.postSummary;
   return (
-    <Wrapper>
-      <BgImage bg={props.postSummary.imageUrls.medium} />
-      <Content>
-        <Tags>
-          {props.postSummary.tags.map((tag) => (
-            <Tag key={tag}>{tag}</Tag>
-          ))}
-        </Tags>
-        <Editor>
-          <Avatar src={props.postSummary.editor.avatarUrls.small} />
-          <EditorDescription>
-            <EditorName>{props.postSummary.editor.name}</EditorName>
-            <PostDate>há 3 dias</PostDate>
-          </EditorDescription>
-        </Editor>
-        <Title>{props.postSummary.title}</Title>
-      </Content>
-    </Wrapper>
+    <Link href={`/posts/${id}/${slug}`} passHref>
+      <Wrapper>
+        <BgImage bg={props.postSummary.imageUrls.medium} />
+        <Content>
+          <Tags>
+            {props.postSummary.tags.map((tag) => (
+              <Tag key={tag}>{tag}</Tag>
+            ))}
+          </Tags>
+          <Editor>
+            <Avatar src={props.postSummary.editor.avatarUrls.small} />
+            <EditorDescription>
+              <EditorName>{props.postSummary.editor.name}</EditorName>
+              <PostDate>há 3 dias</PostDate>
+            </EditorDescription>
+          </Editor>
+          <Title>{props.postSummary.title}</Title>
+        </Content>
+      </Wrapper>
+    </Link>
   );
 }
 
@@ -47,7 +52,7 @@ const BgImage = styled.div<{ bg: string }>`
   opacity: 0.05;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.a`
   position: relative;
   background-color: ${(p) => p.theme.primaryBackground};
   color: ${(p) => p.theme.primaryForeground};
@@ -60,8 +65,19 @@ const Wrapper = styled.div`
   width: 100%;
   min-height: 256px;
 
+  text-decoration: none;
+
   display: flex;
   align-items: center;
+
+  transition: box-shadow 0.25s ease;
+
+  &:hover,
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px
+      ${(p) => transparentize(0.7, p.theme.primaryBackground)};
+  }
 `;
 
 const Tags = styled.ul`
