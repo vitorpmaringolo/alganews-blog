@@ -2,9 +2,11 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { Post, PostService } from "vitorpmaringolo-sdk";
 import FeaturedPost from "../components/FeaturedPost";
+import { ServerResponse } from "http";
+import PostCard from "../components/PostCard";
 
 interface HomeProps {
-  posts: Post.Paginated;
+  posts?: Post.Paginated;
 }
 
 export default function Home(props: HomeProps) {
@@ -18,15 +20,37 @@ export default function Home(props: HomeProps) {
       </Head>
 
       {posts?.content && <FeaturedPost postSummary={posts?.content[0]} />}
+      {posts?.content?.slice(1).map((post) => {
+        return <PostCard key={post.id} post={post} />;
+      })}
     </div>
   );
 }
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async (
-  context
-) => {
-  const { page } = context.query;
+function sendoToHomePage(res: ServerResponse) {
+  res.statusCode = 302;
+  res.setHeader("Location", "/?page=1");
+  return { props: {} };
+}
+
+export const getServerSideProps: GetServerSideProps<HomeProps> = async ({
+  query,
+  res,
+}) => {
+  const { page: _page } = query;
+
+  const page = Number(_page);
+
+  if (isNaN(page) || page < 1) {
+    return sendoToHomePage(res);
+  }
+
   const posts = await PostService.getAllPosts({ page: Number(page) - 1 });
+
+  if (!posts.content?.length) {
+    return sendoToHomePage(res);
+  }
+
   return {
     props: {
       posts,
