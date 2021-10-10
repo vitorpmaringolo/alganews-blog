@@ -1,8 +1,9 @@
 import { GetServerSideProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { Post, PostService } from "vitorpmaringolo-sdk";
+import { ResourceNotFoundError } from "vitorpmaringolo-sdk/dist/errors";
 
-interface PostProps {
+interface PostProps extends NextPageProps {
   post?: Post.Detailed;
 }
 
@@ -12,28 +13,43 @@ export default function PostPage(props: PostProps) {
 
 interface Params extends ParsedUrlQuery {
   id: string;
+  slug: string;
 }
 
 export const getServerSideProps: GetServerSideProps<PostProps, Params> =
-  async ({ params }) => {
+  async ({ params, res }) => {
     try {
       if (!params) return { notFound: true };
 
-      const { id } = params;
+      const { id, slug } = params;
       const postId = Number(id);
 
       if (isNaN(postId)) return { notFound: true };
 
       const post = await PostService.getExistingPost(postId);
 
+      if (slug !== post.slug) {
+        res.statusCode = 301;
+        res.setHeader("Location", `/posts/${post.id}/${post.slug}`);
+        return { props: {} };
+      }
+
       return {
         props: {
           post,
         },
       };
-    } catch (err) {
+    } catch (error) {
+      if (error instanceof ResourceNotFoundError) {
+        return { notFound: true };
+      }
       return {
-        props: {},
+        props: {
+          error: {
+            message: error.message,
+            statusCode: error.data?.status || 500,
+          },
+        },
       };
     }
   };

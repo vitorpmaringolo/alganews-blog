@@ -3476,10 +3476,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vitorpmaringolo-sdk@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/vitorpmaringolo-sdk/-/vitorpmaringolo-sdk-2.7.0.tgz#6ce8c6f49610b76955c42d4179bbf46d192e0edf"
-  integrity sha512-qN6fUD4TFfzece2qapXEKuiOkEhvRsyplRf1qagTj41bzXYxf+sBsn9Z2TSq82g5GnbMcVllwA/B+Ms9nuHggg==
+vitorpmaringolo-sdk@^2.7.2:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/vitorpmaringolo-sdk/-/vitorpmaringolo-sdk-2.7.2.tgz#20f26ce4228035d0399b78b7675f74af62e5312a"
+  integrity sha512-8h3VQklSHM70HhWnoiv1MQ1ScOKxrEytFdGp4RI9u4kRLRfecvG7zm1wvuSOL52AKSC6/f6uW25lboIC8MJPXg==
   dependencies:
     axios "^0.21.4"
     date-fns "^2.23.0"
