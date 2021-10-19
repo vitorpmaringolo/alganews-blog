@@ -3,6 +3,7 @@ import Link from "next/link";
 import { transparentize } from "polished";
 import styled from "styled-components";
 import { Post } from "vitorpmaringolo-sdk";
+import formatPostDate from "../core/utils/formatPostDate";
 
 interface PostCardProps {
   post: Post.Summary;
@@ -22,7 +23,7 @@ export default function PostCard(props: PostCardProps) {
               height={64}
             />
           </Editor>
-          <PublishDate>há 3 dias</PublishDate>
+          <PublishDate>{formatPostDate(post.createdAt)}</PublishDate>
           <Title>{post.title}</Title>
         </Info>
       </Wrapper>

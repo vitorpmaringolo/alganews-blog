@@ -1,14 +1,39 @@
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { ParsedUrlQuery } from "querystring";
 import { Post, PostService } from "vitorpmaringolo-sdk";
 import { ResourceNotFoundError } from "vitorpmaringolo-sdk/dist/errors";
+import Markdown from "../../../components/Markdown";
+import PostHeader from "../../../components/PostHeader";
 
 interface PostProps extends NextPageProps {
   post?: Post.Detailed;
+  host?: string;
 }
 
 export default function PostPage(props: PostProps) {
-  return <div>{props.post?.title}</div>;
+  const { post } = props;
+  return (
+    <>
+      <Head>
+        <link
+          rel="canonical"
+          href={`http://${props.host}/posts/${props.post?.id}/${props.post?.slug}`}
+        />
+      </Head>
+      {post && (
+        <>
+          <PostHeader
+            thumbnail={post?.imageUrls.large}
+            createdAt={post?.createdAt}
+            editor={post?.editor}
+            title={post?.title}
+          />
+          <Markdown>{post.body}</Markdown>
+        </>
+      )}
+    </>
+  );
 }
 
 interface Params extends ParsedUrlQuery {
@@ -17,7 +42,7 @@ interface Params extends ParsedUrlQuery {
 }
 
 export const getServerSideProps: GetServerSideProps<PostProps, Params> =
-  async ({ params, res }) => {
+  async ({ params, res, req }) => {
     try {
       if (!params) return { notFound: true };
 
@@ -28,15 +53,10 @@ export const getServerSideProps: GetServerSideProps<PostProps, Params> =
 
       const post = await PostService.getExistingPost(postId);
 
-      if (slug !== post.slug) {
-        res.statusCode = 301;
-        res.setHeader("Location", `/posts/${post.id}/${post.slug}`);
-        return { props: {} };
-      }
-
       return {
         props: {
           post,
+          host: req.headers.host,
         },
       };
     } catch (error) {
