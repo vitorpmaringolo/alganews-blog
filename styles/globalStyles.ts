@@ -138,7 +138,7 @@ export default createGlobalStyle`
             font-weight: 300;
             font-size: 14px;
 
-            white-space: nowrap;
+            white-space: pre;
         }
 
         img {

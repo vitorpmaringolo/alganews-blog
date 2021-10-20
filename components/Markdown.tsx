@@ -5,10 +5,15 @@ import { okaidia } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { Components } from "react-markdown/lib/ast-to-react";
 
 const components: Components = {
-  code({ node, inline, className, children, ...props }) {
+  code({ ref, node, inline, className, children, ...props }) {
     const match = /language-(\w+)/.exec(className || "");
     return !inline && match ? (
-      <SyntaxHighlighter style={okaidia} language={match[1]} PreTag="div">
+      <SyntaxHighlighter
+        style={okaidia}
+        language={match[1]}
+        PreTag="div"
+        {...props}
+      >
         {String(children).replace(/\n$/, "")}
       </SyntaxHighlighter>
     ) : (
