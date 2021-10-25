@@ -138,7 +138,19 @@ export default createGlobalStyle`
             font-weight: 300;
             font-size: 14px;
 
-            white-space: pre;
+            white-space: nowrap;
+        }
+
+        pre > code {
+            white-space: inherit!important;
+            display: inline-block;
+        }
+
+        pre {
+            color: ${(p) => p.theme.pageBackground};
+            background-color: ${(p) => p.theme.pageForeground};
+            border-radius: ${(p) => p.theme.borderRadius};
+            overflow-x: auto;
         }
 
         img {

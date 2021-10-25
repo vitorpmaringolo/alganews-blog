@@ -1,10 +1,11 @@
-import { GetServerSideProps } from "next";
-import Head from "next/head";
-import { ParsedUrlQuery } from "querystring";
 import { Post, PostService } from "vitorpmaringolo-sdk";
+import { DiscussionEmbed } from "disqus-react";
+import { GetServerSideProps } from "next";
+import { ParsedUrlQuery } from "querystring";
 import { ResourceNotFoundError } from "vitorpmaringolo-sdk/dist/errors";
-import Markdown from "../../../components/Markdown";
+import Head from "next/head";
 import PostHeader from "../../../components/PostHeader";
+import Markdown from "../../../components/Markdown";
 
 interface PostProps extends NextPageProps {
   post?: Post.Detailed;
@@ -16,6 +17,13 @@ export default function PostPage(props: PostProps) {
   return (
     <>
       <Head>
+        <meta property="og:title" content={post?.title} />
+        <meta property="og:site_name" content="AlgaNews" />
+        <meta property="og:url" content="alganews.com.br" />
+        <meta property="og:description" content={post?.body.slice(0, 54)} />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content={post?.imageUrls.medium} />
+        <title>{post?.title} - AlgaNews</title>
         <link
           rel="canonical"
           href={`http://${props.host}/posts/${props.post?.id}/${props.post?.slug}`}
@@ -30,6 +38,15 @@ export default function PostPage(props: PostProps) {
             title={post?.title}
           />
           <Markdown>{post.body}</Markdown>
+          <DiscussionEmbed
+            shortname="alganews-6"
+            config={{
+              url: `http://${props.host}/posts/${props.post?.id}/${props.post?.slug}`,
+              identifier: String(post?.id),
+              title: post.title,
+              language: "pt_BR",
+            }}
+          />
         </>
       )}
     </>
