@@ -58,35 +58,39 @@ interface Params extends ParsedUrlQuery {
   slug: string;
 }
 
-export const getServerSideProps: GetServerSideProps<PostProps, Params> =
-  async ({ params, res, req }) => {
-    try {
-      if (!params) return { notFound: true };
+export const getServerSideProps: GetServerSideProps<
+  PostProps,
+  Params
+> = async ({ params, res, req, query }) => {
+  try {
+    if (!params) return { notFound: true };
 
-      const { id, slug } = params;
-      const postId = Number(id);
+    const { id, slug } = params;
+    const postId = Number(id);
 
-      if (isNaN(postId)) return { notFound: true };
+    const { token } = query;
 
-      const post = await PostService.getExistingPost(postId);
+    if (isNaN(postId)) return { notFound: true };
 
-      return {
-        props: {
-          post,
-          host: req.headers.host,
-        },
-      };
-    } catch (error) {
-      if (error instanceof ResourceNotFoundError) {
-        return { notFound: true };
-      }
-      return {
-        props: {
-          error: {
-            message: error.message,
-            statusCode: error.data?.status || 500,
-          },
-        },
-      };
+    const post = await PostService.getExistingPost(postId, token as string);
+
+    return {
+      props: {
+        post,
+        host: req.headers.host,
+      },
+    };
+  } catch (error) {
+    if (error instanceof ResourceNotFoundError) {
+      return { notFound: true };
     }
-  };
+    return {
+      props: {
+        error: {
+          message: error.message,
+          statusCode: error.data?.status || 500,
+        },
+      },
+    };
+  }
+};
