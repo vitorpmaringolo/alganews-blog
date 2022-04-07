@@ -4379,10 +4379,10 @@ vfile@^5.0.0:
     unist-util-stringify-position "^3.0.0"
     vfile-message "^3.0.0"
 
-vitorpmaringolo-sdk@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/vitorpmaringolo-sdk/-/vitorpmaringolo-sdk-3.1.0.tgz#d77a6a30f74939b18a825701360b29075ece67cc"
-  integrity sha512-6vTswYllnpCmjNsgDPOSqmBV/7NQgwRe46tEKUWWYSV58DCCvhUs0f0U1zjjZAhbaYWcAZpj8FcOQmIcH+7Hkw==
+vitorpmaringolo-sdk@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/vitorpmaringolo-sdk/-/vitorpmaringolo-sdk-3.2.0.tgz#cf722064783c2d37d841879dae92e3ffbd5034fe"
+  integrity sha512-HiTJjQQPKHlLSaLdkFoY/dAS4ky/7+39gj64tUeOkJkQQf4eoLpzRHirreXJDSqF74Xk//iiGIoLP51Ro9FzZQ==
   dependencies:
     axios "^0.21.4"
     date-fns "^2.23.0"
